@@ -94,7 +94,13 @@ export default function MedicationTable() {
       <Table.Td>
         <Tooltip label="Create Query">
           <button
-            onClick={() => router.push(`/${element.id}/create`)}
+            onClick={() =>
+              router.push(
+                `/${element.id}/create?label=${encodeURIComponent(
+                  element.label
+                )}`
+              )
+            }
             style={{
               background: "none",
               border: "none",
