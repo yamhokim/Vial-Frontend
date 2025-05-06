@@ -27,13 +27,13 @@ export default function ModalCreateQueryPage() {
       title={`Create a Query | ${label}`}
     >
       <Textarea
-        label="Query"
         value={queryText}
         onChange={(e) => setQueryText(e.currentTarget.value)}
+        placeholder="Add a new remark"
       />
       <Group mt="md">
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit}>Create</Button>
       </Group>
     </Modal>
   );
