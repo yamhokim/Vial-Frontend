@@ -20,8 +20,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{modal}</MantineProvider>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          {children}
+          {modal}
+        </MantineProvider>
       </body>
     </html>
   );
