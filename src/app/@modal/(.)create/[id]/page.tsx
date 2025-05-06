@@ -31,14 +31,23 @@ export default function ModalCreateQueryPage() {
         content: {
           minHeight: "200px",
         },
+        title: {
+          fontWeight: 700,
+        },
       }}
     >
       <Textarea
         value={queryText}
         onChange={(e) => setQueryText(e.currentTarget.value)}
         placeholder="Add a new remark"
-        minRows={6}
+        minRows={8}
+        maxRows={8}
         autosize
+        styles={{
+          input: {
+            overflowY: "auto",
+          },
+        }}
       />
       <Group mt="md">
         <Button onClick={handleClose}>Cancel</Button>
