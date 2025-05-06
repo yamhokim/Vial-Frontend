@@ -11,6 +11,7 @@ import {
   Text,
   Table,
   Flex,
+  Divider,
 } from "@mantine/core";
 import { IoIosCheckmark } from "react-icons/io";
 
@@ -99,6 +100,7 @@ export default function CreateQueryPage() {
         },
       }}
     >
+      <Divider size="sm"></Divider>
       <Flex
         gap="xl"
         align="center"
@@ -108,6 +110,8 @@ export default function CreateQueryPage() {
           background: bgColor,
         }}
         p="sm"
+        mt="lg"
+        mb="lg"
       >
         <Table withColumnBorders withRowBorders={false}>
           <Table.Thead>{tableHeaders}</Table.Thead>
@@ -126,7 +130,14 @@ export default function CreateQueryPage() {
         )}
       </Flex>
 
-      <Box mt="lg">
+      <Box
+        mt="lg"
+        style={{
+          borderRadius: "var(--mantine-radius-sm)",
+          background: "#f8f9fa",
+        }}
+        p="sm"
+      >
         <Group justify="space-between">
           <Badge color="gray" variant="light">
             swe+dm@vial.com

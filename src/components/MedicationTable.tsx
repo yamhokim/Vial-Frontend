@@ -1,6 +1,6 @@
 "use client";
 import "@mantine/core/styles.css";
-import { Center, Checkbox, Table, Tooltip } from "@mantine/core";
+import { Center, Checkbox, Table, Tooltip, Box } from "@mantine/core";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
@@ -59,6 +59,14 @@ const data: Field[] = [
     DM: false,
     query: "none",
   },
+  {
+    id: 6,
+    label: "Is the medication animal safe?",
+    value: "No",
+    CRA: true,
+    DM: false,
+    query: "none",
+  },
 ];
 
 export default function MedicationTable() {
@@ -86,19 +94,28 @@ export default function MedicationTable() {
     <Table.Tr key={element.id}>
       <Table.Td>{element.label}</Table.Td>
       <Table.Td>{element.value}</Table.Td>
-      <Table.Td>
+      <Table.Td align="center">
         <Checkbox
           checked={element.CRA}
           onChange={() => handleCraChange(element.id)}
         />
       </Table.Td>
-      <Table.Td>
+      <Table.Td align="center">
         <Checkbox
           checked={element.DM}
           onChange={() => handleDmChange(element.id)}
         />
       </Table.Td>
-      <Table.Td>
+      <Table.Td
+        bg={
+          element.query === "opened"
+            ? "#fff5f5"
+            : element.query === "resolved"
+            ? "#f5fff5"
+            : ""
+        }
+        align="center"
+      >
         {element.query === "none" && (
           <Tooltip label="Create Query">
             <button
@@ -177,7 +194,7 @@ export default function MedicationTable() {
 
   const tableHeaders = (
     <Table.Tr>
-      <Table.Th>Field Data</Table.Th>
+      <Table.Th>Fields</Table.Th>
       <Table.Th></Table.Th>
       <Table.Th>CRA</Table.Th>
       <Table.Th>DM</Table.Th>
@@ -185,10 +202,18 @@ export default function MedicationTable() {
     </Table.Tr>
   );
   return (
-    <Table striped highlightOnHover captionSide="top" verticalSpacing="md">
-      <Table.Caption>Vial Form</Table.Caption>
-      <Table.Thead>{tableHeaders}</Table.Thead>
-      <Table.Tbody>{rows}</Table.Tbody>
-    </Table>
+    <Box p="lg">
+      <Table
+        striped
+        withTableBorder
+        highlightOnHover
+        verticalSpacing="md"
+        mt="lg"
+        mb="lg"
+      >
+        <Table.Thead>{tableHeaders}</Table.Thead>
+        <Table.Tbody>{rows}</Table.Tbody>
+      </Table>
+    </Box>
   );
 }

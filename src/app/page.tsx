@@ -7,7 +7,7 @@ export default function Page() {
 
   return (
     <>
-      <h1>Welcome to Vial</h1>;
+      <h1>Welcome to Vial</h1>
       <Button onClick={() => router.push(`/form-data`)}>Go to Table</Button>
     </>
   );
