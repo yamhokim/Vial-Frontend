@@ -130,7 +130,7 @@ export default function MedicationTable() {
                 router.push(
                   `/form-data/overview/${element.id}?label=${encodeURIComponent(
                     element.label
-                  )}`
+                  )}&query=${encodeURIComponent(element.query)}`
                 )
               }
               style={{
@@ -154,7 +154,7 @@ export default function MedicationTable() {
                 router.push(
                   `/form-data/overview/${element.id}?label=${encodeURIComponent(
                     element.label
-                  )}`
+                  )}&query=${encodeURIComponent(element.query)}`
                 )
               }
               style={{

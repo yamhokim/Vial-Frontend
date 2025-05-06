@@ -19,13 +19,34 @@ export default function CreateQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const label = searchParams.get("label");
-  const [queryText, setQueryText] = useState("");
+  const queryState = searchParams.get("query");
+
+  // Determine styles based on queryState
+  let statusColor = "gray";
+  let statusLabel = "None";
+  let bgColor = "#f5f5f5";
+  let buttonColor = "gray";
+  let showResolve = false;
+
+  if (queryState === "opened") {
+    statusColor = "red";
+    statusLabel = "Open";
+    bgColor = "#fff5f5";
+    buttonColor = "teal";
+    showResolve = true;
+  } else if (queryState === "resolved") {
+    statusColor = "green";
+    statusLabel = "Resolved";
+    bgColor = "#f5fff5";
+    buttonColor = "gray";
+    showResolve = false;
+  }
 
   const row = (
     <Table.Tr>
       <Table.Td>
-        <Badge color="red" variant="filled">
-          Open
+        <Badge color={statusColor} variant="filled">
+          {statusLabel}
         </Badge>
       </Table.Td>
       <Table.Td>Sew+Dm@Vial.com</Table.Td>
@@ -85,7 +106,7 @@ export default function CreateQueryPage() {
         wrap="nowrap"
         style={{
           borderRadius: "var(--mantine-radius-sm)",
-          background: "#fff5f5",
+          background: bgColor,
         }}
         p="sm"
       >
@@ -93,9 +114,15 @@ export default function CreateQueryPage() {
           <Table.Thead>{tableHeaders}</Table.Thead>
           <Table.Tbody>{row}</Table.Tbody>
         </Table>
-        <Button color="teal" variant="filled" style={{ flexShrink: 0 }}>
-          <IoIosCheckmark /> Resolve
-        </Button>
+        {showResolve && (
+          <Button
+            color={buttonColor}
+            variant="filled"
+            style={{ flexShrink: 0 }}
+          >
+            <IoIosCheckmark /> Resolve
+          </Button>
+        )}
       </Flex>
 
       <Box mt="lg">
