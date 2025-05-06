@@ -124,13 +124,51 @@ export default function MedicationTable() {
           </Tooltip>
         )}
         {element.query === "opened" && (
-          <Tooltip label="Query Opened">
-            <FaQuestionCircle color="#FFA500" />
+          <Tooltip label="View Query">
+            <button
+              onClick={() =>
+                router.push(
+                  `/form-data/overview/${element.id}?label=${encodeURIComponent(
+                    element.label
+                  )}`
+                )
+              }
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FaQuestionCircle color="red" />
+            </button>
           </Tooltip>
         )}
         {element.query === "resolved" && (
           <Tooltip label="Query Resolved">
-            <FaCheckCircle color="green" />
+            <button
+              onClick={() =>
+                router.push(
+                  `/form-data/overview/${element.id}?label=${encodeURIComponent(
+                    element.label
+                  )}`
+                )
+              }
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FaCheckCircle color="green" />
+            </button>
           </Tooltip>
         )}
       </Table.Td>

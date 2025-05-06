@@ -3,7 +3,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Modal, Textarea, Button, Group } from "@mantine/core";
+import { Modal, Textarea, Button, Group, Divider } from "@mantine/core";
 
 export default function CreateQueryPage() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function CreateQueryPage() {
     <Modal
       opened={true}
       onClose={() => router.back()}
-      title={`Create a Query | ${label}`}
+      title={`Query | ${label}`}
       centered
       size="lg"
       styles={{

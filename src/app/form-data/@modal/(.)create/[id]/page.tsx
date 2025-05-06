@@ -33,6 +33,7 @@ export default function ModalCreateQueryPage() {
         },
         title: {
           fontWeight: 700,
+          fontSize: 18,
         },
       }}
     >
