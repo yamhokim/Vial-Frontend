@@ -4,6 +4,9 @@ import { Center, Checkbox, Table, Tooltip } from "@mantine/core";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
+import { FaQuestionCircle, FaCheckCircle } from "react-icons/fa";
+
+type QueryStatus = "none" | "opened" | "resolved";
 
 type Field = {
   id: number;
@@ -11,7 +14,7 @@ type Field = {
   value: string;
   CRA: boolean;
   DM: boolean;
-  query?: boolean;
+  query: QueryStatus;
   error?: boolean;
 };
 
@@ -22,6 +25,7 @@ const data: Field[] = [
     value: "Yes",
     CRA: true,
     DM: false,
+    query: "none",
   },
   {
     id: 2,
@@ -29,6 +33,7 @@ const data: Field[] = [
     value: "Ibuprofen",
     CRA: false,
     DM: false,
+    query: "opened",
   },
   {
     id: 3,
@@ -36,6 +41,7 @@ const data: Field[] = [
     value: "500",
     CRA: true,
     DM: true,
+    query: "resolved",
   },
   {
     id: 4,
@@ -43,7 +49,7 @@ const data: Field[] = [
     value: "mg",
     CRA: false,
     DM: true,
-    query: true,
+    query: "none",
   },
   {
     id: 5,
@@ -51,6 +57,7 @@ const data: Field[] = [
     value: "No",
     CRA: true,
     DM: false,
+    query: "none",
   },
 ];
 
@@ -92,28 +99,40 @@ export default function MedicationTable() {
         />
       </Table.Td>
       <Table.Td>
-        <Tooltip label="Create Query">
-          <button
-            onClick={() =>
-              router.push(
-                `/form-data/create/${element.id}?label=${encodeURIComponent(
-                  element.label
-                )}`
-              )
-            }
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <GoPlus />
-          </button>
-        </Tooltip>
+        {element.query === "none" && (
+          <Tooltip label="Create Query">
+            <button
+              onClick={() =>
+                router.push(
+                  `/form-data/create/${element.id}?label=${encodeURIComponent(
+                    element.label
+                  )}`
+                )
+              }
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <GoPlus />
+            </button>
+          </Tooltip>
+        )}
+        {element.query === "opened" && (
+          <Tooltip label="Query Opened">
+            <FaQuestionCircle color="#FFA500" />
+          </Tooltip>
+        )}
+        {element.query === "resolved" && (
+          <Tooltip label="Query Resolved">
+            <FaCheckCircle color="green" />
+          </Tooltip>
+        )}
       </Table.Td>
     </Table.Tr>
   ));
