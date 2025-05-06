@@ -1,11 +1,10 @@
 "use client";
-import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Modal, Textarea, Button } from "@mantine/core";
 import { useState } from "react";
 
 export default function CreateQueryPage() {
   const router = useRouter();
-  const params = useParams();
   const searchParams = useSearchParams();
   const label = searchParams.get("label");
   const [queryText, setQueryText] = useState("");
