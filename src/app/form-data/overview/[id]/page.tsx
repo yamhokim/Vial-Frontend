@@ -113,14 +113,16 @@ export default function CreateQueryPage() {
           <Table.Thead>{tableHeaders}</Table.Thead>
           <Table.Tbody>{row}</Table.Tbody>
         </Table>
-        {showResolve && (
+        {showResolve ? (
           <Button
             color={buttonColor}
             variant="filled"
-            style={{ flexShrink: 0 }}
+            style={{ flexShrink: 0, minWidth: 100 }}
           >
             <IoIosCheckmark /> Resolve
           </Button>
+        ) : (
+          <div style={{ minWidth: 100 }} />
         )}
       </Flex>
 
