@@ -2,6 +2,7 @@
 import "@mantine/core/styles.css";
 import { Checkbox, Table, Tooltip } from "@mantine/core";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
 
 type Field = {
@@ -55,6 +56,7 @@ const data: Field[] = [
 
 export default function MedicationTable() {
   const [tableData, setTableData] = useState(data);
+  const router = useRouter();
 
   // Handle checkbox change
   const handleCraChange = (id: number) => {
@@ -92,7 +94,7 @@ export default function MedicationTable() {
       <Table.Td>
         <Tooltip label="Create Query">
           <button
-            onClick={() => console.log("Query clicked for:", element.id)}
+            onClick={() => router.push(`/${element.id}/create`)}
             style={{
               background: "none",
               border: "none",
