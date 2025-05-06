@@ -25,11 +25,20 @@ export default function ModalCreateQueryPage() {
       opened={true}
       onClose={() => router.back()}
       title={`Create a Query | ${label}`}
+      centered
+      size="lg"
+      styles={{
+        content: {
+          minHeight: "200px",
+        },
+      }}
     >
       <Textarea
         value={queryText}
         onChange={(e) => setQueryText(e.currentTarget.value)}
         placeholder="Add a new remark"
+        minRows={6}
+        autosize
       />
       <Group mt="md">
         <Button onClick={handleClose}>Cancel</Button>

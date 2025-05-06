@@ -1,6 +1,6 @@
 "use client";
 import "@mantine/core/styles.css";
-import { Checkbox, Table, Tooltip } from "@mantine/core";
+import { Center, Checkbox, Table, Tooltip } from "@mantine/core";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
@@ -128,7 +128,7 @@ export default function MedicationTable() {
     </Table.Tr>
   );
   return (
-    <Table striped highlightOnHover captionSide="top">
+    <Table striped highlightOnHover captionSide="top" verticalSpacing="md">
       <Table.Caption>Vial Form</Table.Caption>
       <Table.Thead>{tableHeaders}</Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>
