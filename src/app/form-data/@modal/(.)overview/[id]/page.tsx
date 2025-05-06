@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Modal,
@@ -21,7 +20,7 @@ export default function CreateQueryPage() {
   const label = searchParams.get("label");
   const queryState = searchParams.get("query");
 
-  // Determine styles based on queryState
+  // Determine styles based on queryState value
   let statusColor = "gray";
   let statusLabel = "None";
   let bgColor = "#f5f5f5";
@@ -114,14 +113,16 @@ export default function CreateQueryPage() {
           <Table.Thead>{tableHeaders}</Table.Thead>
           <Table.Tbody>{row}</Table.Tbody>
         </Table>
-        {showResolve && (
+        {showResolve ? (
           <Button
             color={buttonColor}
             variant="filled"
-            style={{ flexShrink: 0 }}
+            style={{ flexShrink: 0, minWidth: 100 }}
           >
             <IoIosCheckmark /> Resolve
           </Button>
+        ) : (
+          <div style={{ minWidth: 100 }} />
         )}
       </Flex>
 
