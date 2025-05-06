@@ -5,7 +5,7 @@ import { useState } from "react";
 import { GoPlus } from "react-icons/go";
 
 type Field = {
-  id: Number;
+  id: number;
   label: string;
   value: string;
   CRA: boolean;
@@ -57,7 +57,7 @@ export default function MedicationTable() {
   const [tableData, setTableData] = useState(data);
 
   // Handle checkbox change
-  const handleCraChange = (id: Number) => {
+  const handleCraChange = (id: number) => {
     setTableData((prevData) =>
       prevData.map((item) =>
         item.id === id ? { ...item, CRA: !item.CRA } : item
@@ -65,7 +65,7 @@ export default function MedicationTable() {
     );
   };
 
-  const handleDmChange = (id: Number) => {
+  const handleDmChange = (id: number) => {
     setTableData((prevData) =>
       prevData.map((item) =>
         item.id === id ? { ...item, DM: !item.DM } : item
@@ -91,7 +91,20 @@ export default function MedicationTable() {
       </Table.Td>
       <Table.Td>
         <Tooltip label="Create Query">
-          <GoPlus />
+          <button
+            onClick={() => console.log("Query clicked for:", element.id)}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <GoPlus />
+          </button>
         </Tooltip>
       </Table.Td>
     </Table.Tr>
