@@ -1,5 +1,3 @@
-import MedicationTable from "@/components/MedicationTable";
-
 export default function Page() {
-  return <MedicationTable />;
+  return <h1>Welcome</h1>;
 }

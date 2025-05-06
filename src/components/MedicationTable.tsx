@@ -96,7 +96,7 @@ export default function MedicationTable() {
           <button
             onClick={() =>
               router.push(
-                `/create/${element.id}?label=${encodeURIComponent(
+                `/form-data/create/${element.id}?label=${encodeURIComponent(
                   element.label
                 )}`
               )
