@@ -49,10 +49,13 @@ export default function ModalCreateQueryPage() {
             overflowY: "auto",
           },
         }}
+        mt="lg"
+        mb="xl"
       />
-      <Group mt="md">
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Create</Button>
+      <Group mt="xl" justify="center">
+        <Button onClick={handleSubmit} w="40%">
+          Create
+        </Button>
       </Group>
     </Modal>
   );

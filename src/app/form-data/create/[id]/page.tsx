@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Modal, Textarea, Button, Group } from "@mantine/core";
 
-export default function CreateQueryPage() {
+export default function ModalCreateQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const label = searchParams.get("label");
@@ -49,10 +49,13 @@ export default function CreateQueryPage() {
             overflowY: "auto",
           },
         }}
+        mt="lg"
+        mb="xl"
       />
-      <Group mt="md">
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Create</Button>
+      <Group mt="xl" justify="center">
+        <Button onClick={handleSubmit} w="40%">
+          Create
+        </Button>
       </Group>
     </Modal>
   );
