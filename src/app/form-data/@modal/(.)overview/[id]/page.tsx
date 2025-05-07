@@ -14,6 +14,7 @@ import {
   Divider,
 } from "@mantine/core";
 import { IoIosCheckmark } from "react-icons/io";
+import { FaTrash } from "react-icons/fa";
 import { useTable } from "@/context/TableContext";
 import { useApi } from "@/hooks/useApi";
 
@@ -24,8 +25,9 @@ export default function OverviewQueryPage() {
   const label = searchParams.get("label");
   const formDataId = params.id as string;
   const { tableData, refreshData } = useTable();
-  const { updateQuery } = useApi();
+  const { updateQuery, deleteQuery } = useApi();
   const [isResolving, setIsResolving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Find the form data entry that matches our ID
   const formDataEntry = tableData.find((entry) => entry.id === formDataId);
@@ -107,6 +109,21 @@ export default function OverviewQueryPage() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!query?.id) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteQuery(query.id);
+      await refreshData();
+      handleClose();
+    } catch (error) {
+      console.error("Error deleting query:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <Modal
       opened={true}
@@ -178,6 +195,18 @@ export default function OverviewQueryPage() {
           {query?.description || "No description available"}
         </Text>
       </Box>
+
+      <Group justify="flex-end" mt="lg">
+        <Button
+          color="red"
+          variant="light"
+          leftSection={<FaTrash />}
+          onClick={handleDelete}
+          loading={isDeleting}
+        >
+          Delete Query
+        </Button>
+      </Group>
     </Modal>
   );
 }

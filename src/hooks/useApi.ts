@@ -40,5 +40,6 @@ export const useApi = () => {
     }) => fetchApi("query", { method: "POST", body: data }),
     updateQuery: (id: string, data: { status: "OPEN" | "RESOLVED" }) =>
       fetchApi(`query/${id}`, { method: "PUT", body: data }),
+    deleteQuery: (id: string) => fetchApi(`query/${id}`, { method: "DELETE" }),
   };
 };
