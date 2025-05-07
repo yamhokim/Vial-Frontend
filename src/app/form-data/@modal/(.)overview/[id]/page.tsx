@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import {
   Modal,
@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { IoIosCheckmark } from "react-icons/io";
 import { useTable } from "@/context/TableContext";
+import { useApi } from "@/hooks/useApi";
 
 export default function OverviewQueryPage() {
   const router = useRouter();
@@ -22,7 +23,9 @@ export default function OverviewQueryPage() {
   const params = useParams();
   const label = searchParams.get("label");
   const formDataId = params.id as string;
-  const { tableData } = useTable();
+  const { tableData, refreshData } = useTable();
+  const { updateQuery } = useApi();
+  const [isResolving, setIsResolving] = useState(false);
 
   // Find the form data entry that matches our ID
   const formDataEntry = tableData.find((entry) => entry.id === formDataId);
@@ -87,9 +90,19 @@ export default function OverviewQueryPage() {
     router.back();
   };
 
-  const handleSubmit = () => {
-    // Need to add code to handle the submission of data
-    handleClose();
+  const handleResolve = async () => {
+    if (!query?.id) return;
+
+    setIsResolving(true);
+    try {
+      await updateQuery(query.id, { status: "RESOLVED" });
+      await refreshData();
+      handleClose();
+    } catch (error) {
+      console.error("Error resolving query:", error);
+    } finally {
+      setIsResolving(false);
+    }
   };
 
   return (
@@ -131,6 +144,8 @@ export default function OverviewQueryPage() {
             color={buttonColor}
             variant="filled"
             style={{ flexShrink: 0, minWidth: 100 }}
+            onClick={handleResolve}
+            loading={isResolving}
           >
             <IoIosCheckmark /> Resolve
           </Button>
