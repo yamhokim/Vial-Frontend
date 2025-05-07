@@ -11,6 +11,11 @@ import { TableProvider } from "@/context/TableContext";
 import React from "react";
 import { FaVial } from "react-icons/fa";
 
+/**
+ * RootLayout component serves as the main layout wrapper for the entire application.
+ * I also include styling and theming through MantineProvider
+ * TableProvider is used here to enable sharing of table data across components
+ */
 export default function RootLayout({
   children,
   modal,
