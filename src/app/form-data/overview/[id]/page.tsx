@@ -61,7 +61,9 @@ export default function OverviewQueryPage() {
       </Table.Td>
       <Table.Td>User</Table.Td>
       <Table.Td>
-        {query ? new Date(query.createdAt).toLocaleDateString() : "N/A"}
+        {query?.status === "RESOLVED"
+          ? `Resolved: ${new Date(query.updatedAt).toLocaleDateString()}`
+          : `Created: ${new Date(query?.createdAt || "").toLocaleDateString()}`}
       </Table.Td>
     </Table.Tr>
   );
@@ -80,7 +82,7 @@ export default function OverviewQueryPage() {
       </Table.Td>
       <Table.Td>
         <Text color="dimmed" size="sm">
-          Created On
+          {query?.status === "RESOLVED" ? "Resolved On" : "Created On"}
         </Text>
       </Table.Td>
     </Table.Tr>
@@ -167,7 +169,9 @@ export default function OverviewQueryPage() {
             User
           </Badge>
           <Text size="sm" color="dimmed" ml="xs">
-            {query ? new Date(query.createdAt).toLocaleString() : "N/A"}
+            {query?.status === "RESOLVED"
+              ? `Resolved: ${new Date(query.updatedAt).toLocaleString()}`
+              : `Created: ${new Date(query?.createdAt || "").toLocaleString()}`}
           </Text>
         </Group>
         <Text mt="sm" ml="xs">
