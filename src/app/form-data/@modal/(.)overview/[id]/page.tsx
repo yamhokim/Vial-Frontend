@@ -49,7 +49,7 @@ export default function CreateQueryPage() {
           {statusLabel}
         </Badge>
       </Table.Td>
-      <Table.Td>Sew+Dm@Vial.com</Table.Td>
+      <Table.Td>User</Table.Td>
       <Table.Td>June 1, 2025</Table.Td>
     </Table.Tr>
   );
@@ -140,7 +140,7 @@ export default function CreateQueryPage() {
       >
         <Group justify="space-between">
           <Badge color="gray" variant="light">
-            swe+dm@vial.com
+            User
           </Badge>
           <Text size="sm" color="dimmed" ml="xs">
             January 06 2025 - 14:53
