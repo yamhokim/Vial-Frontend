@@ -18,7 +18,7 @@ export const useApi = () => {
     const response = await fetch(getApiUrl(endpoint), {
       method,
       headers: {
-        "Content-Type": "application/json",
+        ...(method !== "DELETE" && { "Content-Type": "application/json" }),
         ...headers,
       },
       ...(body && { body: JSON.stringify(body) }),
