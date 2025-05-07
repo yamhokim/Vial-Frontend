@@ -33,8 +33,6 @@ export const useApi = () => {
 
   return {
     getFormData: () => fetchApi<{ data: FormData[] }>("formData"),
-    updateFormData: (id: string, data: { cra?: boolean; dm?: boolean }) =>
-      fetchApi(`form-data/${id}`, { method: "PUT", body: data }),
     createQuery: (data: {
       title: string;
       description: string;
