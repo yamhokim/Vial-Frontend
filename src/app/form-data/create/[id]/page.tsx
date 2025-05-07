@@ -2,22 +2,50 @@
 
 import React from "react";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { Modal, Textarea, Button, Group } from "@mantine/core";
+import { useApi } from "@/hooks/useApi";
+import { useTable } from "@/context/TableContext";
 
 export default function ModalCreateQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams();
   const label = searchParams.get("label");
+  const formDataId = params.id as string;
   const [queryText, setQueryText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createQuery } = useApi();
+  const { refreshData } = useTable();
 
   const handleClose = () => {
     router.back();
   };
 
-  const handleSubmit = () => {
-    // Need to add code to handle the submission of data
-    handleClose();
+  const handleSubmit = async () => {
+    // Invalid URL case, just return
+    if (!formDataId || !label) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await createQuery({
+        title: label,
+        description: queryText.trim(),
+        formDataId: formDataId,
+      });
+
+      // Refresh the table data
+      await refreshData();
+
+      handleClose();
+    } catch (err) {
+      console.error(`Error Creating Query: ${err}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,7 +81,7 @@ export default function ModalCreateQueryPage() {
         mb="xl"
       />
       <Group mt="xl" justify="center">
-        <Button onClick={handleSubmit} w="40%">
+        <Button onClick={handleSubmit} w="40%" loading={isSubmitting}>
           Create
         </Button>
       </Group>
