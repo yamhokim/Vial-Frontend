@@ -35,7 +35,7 @@ export const useApi = () => {
     getFormData: () => fetchApi<{ data: FormData[] }>("formData"),
     createQuery: (data: {
       title: string;
-      description: string;
+      description?: string;
       formDataId: string;
     }) => fetchApi("query", { method: "POST", body: data }),
     updateQuery: (id: string, data: { status: "OPEN" | "RESOLVED" }) =>

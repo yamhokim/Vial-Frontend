@@ -1,128 +1,71 @@
 "use client";
 import "@mantine/core/styles.css";
 import { Center, Checkbox, Table, Tooltip, Box } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
 import { FaQuestionCircle, FaCheckCircle } from "react-icons/fa";
+import { useApi } from "@/hooks/useApi";
 
-type QueryStatus = "none" | "opened" | "resolved";
-
-type Field = {
-  id: number;
-  label: string;
-  value: string;
-  CRA: boolean;
-  DM: boolean;
-  query: QueryStatus;
-  error?: boolean;
+type FormData = {
+  id: string;
+  question: string;
+  answer: string;
+  cra: boolean;
+  dm: boolean;
+  query?: {
+    id: string;
+    title: string;
+    description: string;
+    status: "OPEN" | "RESOLVED";
+    createdAt: string;
+    updatedAt: string;
+  };
 };
 
-const data: Field[] = [
-  {
-    id: 1,
-    label: "Were any medications/therapies taken?",
-    value: "Yes",
-    CRA: true,
-    DM: false,
-    query: "none",
-  },
-  {
-    id: 2,
-    label: "What was the medication/treatment/therapy name?",
-    value: "Ibuprofen",
-    CRA: false,
-    DM: false,
-    query: "opened",
-  },
-  {
-    id: 3,
-    label: "What was the individual dose of the medication?",
-    value: "500",
-    CRA: true,
-    DM: true,
-    query: "resolved",
-  },
-  {
-    id: 4,
-    label: "What was the unit of the medication dose?",
-    value: "mg",
-    CRA: false,
-    DM: true,
-    query: "none",
-  },
-  {
-    id: 5,
-    label: "Is the medication ongoing?",
-    value: "No",
-    CRA: true,
-    DM: false,
-    query: "none",
-  },
-  {
-    id: 6,
-    label: "Is the medication animal safe?",
-    value: "No",
-    CRA: true,
-    DM: false,
-    query: "none",
-  },
-];
-
 export default function MedicationTable() {
-  const [tableData, setTableData] = useState(data);
+  const [tableData, setTableData] = useState<FormData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const { getFormData, updateFormData } = useApi();
 
-  // Handle checkbox change
-  const handleCraChange = (id: number) => {
-    setTableData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, CRA: !item.CRA } : item
-      )
-    );
-  };
+  // Fetch data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getFormData();
+        setTableData(response.data.formData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleDmChange = (id: number) => {
-    setTableData((prevData) =>
-      prevData.map((item) =>
-        item.id === id ? { ...item, DM: !item.DM } : item
-      )
-    );
-  };
+    fetchData();
+  }, []);
 
   const rows = tableData.map((element) => (
     <Table.Tr key={element.id}>
-      <Table.Td>{element.label}</Table.Td>
-      <Table.Td>{element.value}</Table.Td>
-      <Table.Td align="center">
-        <Checkbox
-          checked={element.CRA}
-          onChange={() => handleCraChange(element.id)}
-        />
-      </Table.Td>
-      <Table.Td align="center">
-        <Checkbox
-          checked={element.DM}
-          onChange={() => handleDmChange(element.id)}
-        />
-      </Table.Td>
+      <Table.Td>{element.question}</Table.Td>
+      <Table.Td>{element.answer}</Table.Td>
       <Table.Td
         bg={
-          element.query === "opened"
+          element.query?.status === "OPEN"
             ? "#fff5f5"
-            : element.query === "resolved"
+            : element.query?.status === "RESOLVED"
             ? "#f5fff5"
             : ""
         }
         align="center"
       >
-        {element.query === "none" && (
+        {!element.query && (
           <Tooltip label="Create Query">
             <button
               onClick={() =>
                 router.push(
                   `/form-data/create/${element.id}?label=${encodeURIComponent(
-                    element.label
+                    element.question
                   )}`
                 )
               }
@@ -140,14 +83,14 @@ export default function MedicationTable() {
             </button>
           </Tooltip>
         )}
-        {element.query === "opened" && (
+        {element.query?.status === "OPEN" && (
           <Tooltip label="View Query">
             <button
               onClick={() =>
                 router.push(
                   `/form-data/overview/${element.id}?label=${encodeURIComponent(
-                    element.label
-                  )}&query=${encodeURIComponent(element.query)}`
+                    element.question
+                  )}&query=${encodeURIComponent(element.query.status)}`
                 )
               }
               style={{
@@ -164,14 +107,14 @@ export default function MedicationTable() {
             </button>
           </Tooltip>
         )}
-        {element.query === "resolved" && (
+        {element.query?.status === "RESOLVED" && (
           <Tooltip label="Query Resolved">
             <button
               onClick={() =>
                 router.push(
                   `/form-data/overview/${element.id}?label=${encodeURIComponent(
-                    element.label
-                  )}&query=${encodeURIComponent(element.query)}`
+                    element.question
+                  )}&query=${encodeURIComponent(element.query.status)}`
                 )
               }
               style={{
@@ -195,12 +138,19 @@ export default function MedicationTable() {
   const tableHeaders = (
     <Table.Tr>
       <Table.Th>Fields</Table.Th>
-      <Table.Th></Table.Th>
-      <Table.Th>CRA</Table.Th>
-      <Table.Th>DM</Table.Th>
+      <Table.Th>Answer</Table.Th>
       <Table.Th>Queries</Table.Th>
     </Table.Tr>
   );
+
+  if (isLoading) {
+    return (
+      <Box p="lg">
+        <Center>Loading...</Center>
+      </Box>
+    );
+  }
+
   return (
     <Box p="lg">
       <Table
