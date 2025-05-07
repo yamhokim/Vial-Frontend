@@ -89,7 +89,6 @@ vial-frontend/
 - [Next.js](https://nextjs.org/) - React framework
 - [Mantine](https://mantine.dev/) - UI component library
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [React Query](https://tanstack.com/query/latest) - Data fetching and caching
 
 ## API Integration
 
