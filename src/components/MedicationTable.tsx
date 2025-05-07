@@ -6,6 +6,7 @@ import { GoPlus } from "react-icons/go";
 import { FaQuestionCircle, FaCheckCircle } from "react-icons/fa";
 import { useTable } from "@/context/TableContext";
 
+// MedicationTable component displays form data in a tabular format with query management.
 export default function MedicationTable() {
   const router = useRouter();
   const { tableData, isLoading } = useTable();
@@ -55,7 +56,7 @@ export default function MedicationTable() {
                 router.push(
                   `/form-data/overview/${element.id}?label=${encodeURIComponent(
                     element.question
-                  )}&query=${encodeURIComponent(element.query.status)}`
+                  )}&query=${encodeURIComponent(element.query?.status || "")}`
                 )
               }
               style={{
@@ -79,7 +80,7 @@ export default function MedicationTable() {
                 router.push(
                   `/form-data/overview/${element.id}?label=${encodeURIComponent(
                     element.question
-                  )}&query=${encodeURIComponent(element.query.status)}`
+                  )}&query=${encodeURIComponent(element.query?.status || "")}`
                 )
               }
               style={{

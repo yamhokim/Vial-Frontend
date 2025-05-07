@@ -18,6 +18,7 @@ import { FaTrash } from "react-icons/fa";
 import { useTable } from "@/context/TableContext";
 import { useApi } from "@/hooks/useApi";
 
+// Intercepts the overview page and displays the query in a modal.
 export default function OverviewQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();

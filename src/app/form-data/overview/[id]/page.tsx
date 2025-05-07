@@ -17,6 +17,7 @@ import { IoIosCheckmark } from "react-icons/io";
 import { useTable } from "@/context/TableContext";
 import { useApi } from "@/hooks/useApi";
 
+// OverviewQueryPage component displays detailed information about a specific query.
 export default function OverviewQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -88,10 +89,12 @@ export default function OverviewQueryPage() {
     </Table.Tr>
   );
 
+  // Handles modal closing by navigating back.
   const handleClose = () => {
     router.back();
   };
 
+  // Handles query resolution with proper error handling and state management
   const handleResolve = async () => {
     if (!query?.id) return;
 

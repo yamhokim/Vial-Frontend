@@ -7,6 +7,7 @@ import { Modal, Textarea, Button, Group } from "@mantine/core";
 import { useApi } from "@/hooks/useApi";
 import { useTable } from "@/context/TableContext";
 
+// Intercepts the create page and displays the query creation page in a modal
 export default function ModalCreateQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();

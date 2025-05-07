@@ -8,7 +8,13 @@ interface ApiOptions {
   headers?: Record<string, string>;
 }
 
+/**
+ * Custom hook that does two things:
+ * 1. Centralizes API call logic and error handling
+ * 2. Provides a consistent interface for all API operations
+ */
 export const useApi = () => {
+  // Generic API call function for GET, POST, and PUT requests
   const fetchApi = async <T>(
     endpoint: string,
     options: ApiOptions = {}
@@ -31,6 +37,12 @@ export const useApi = () => {
     return response.json();
   };
 
+  /**
+   * Specific API call function for DELETE requests
+   * I separated this from fetchApi because:
+   * 1. DELETE requests often don't need a body or Content-Type header
+   * 2. It simplifies the interface for delete operations
+   */
   const fetchDelete = async (endpoint: string): Promise<void> => {
     const response = await fetch(getApiUrl(endpoint), {
       method: "DELETE",

@@ -7,6 +7,7 @@ import { Modal, Textarea, Button, Group } from "@mantine/core";
 import { useApi } from "@/hooks/useApi";
 import { useTable } from "@/context/TableContext";
 
+// ModalCreateQueryPage component provides a form for creating new queries.
 export default function ModalCreateQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -18,10 +19,12 @@ export default function ModalCreateQueryPage() {
   const { createQuery } = useApi();
   const { refreshData } = useTable();
 
+  // Handles modal closing by navigating back.
   const handleClose = () => {
     router.back();
   };
 
+  // Handles query creation with proper validation and error handling.
   const handleSubmit = async () => {
     // Invalid URL case, just return
     if (!formDataId || !label) {
