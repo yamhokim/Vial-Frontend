@@ -1,49 +1,14 @@
 "use client";
 import "@mantine/core/styles.css";
-import { Center, Checkbox, Table, Tooltip, Box } from "@mantine/core";
-import { useState, useEffect } from "react";
+import { Center, Table, Tooltip, Box } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
 import { FaQuestionCircle, FaCheckCircle } from "react-icons/fa";
-import { useApi } from "@/hooks/useApi";
-
-type FormData = {
-  id: string;
-  question: string;
-  answer: string;
-  cra: boolean;
-  dm: boolean;
-  query?: {
-    id: string;
-    title: string;
-    description: string;
-    status: "OPEN" | "RESOLVED";
-    createdAt: string;
-    updatedAt: string;
-  };
-};
+import { useTable } from "@/context/TableContext";
 
 export default function MedicationTable() {
-  const [tableData, setTableData] = useState<FormData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const { getFormData, updateFormData } = useApi();
-
-  // Fetch data on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getFormData();
-        setTableData(response.data.formData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { tableData, isLoading } = useTable();
 
   const rows = tableData.map((element) => (
     <Table.Tr key={element.id}>

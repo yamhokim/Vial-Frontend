@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { Modal, Textarea, Button, Group } from "@mantine/core";
 import { useApi } from "@/hooks/useApi";
+import { useTable } from "@/context/TableContext";
 
 export default function ModalCreateQueryPage() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function ModalCreateQueryPage() {
   const [queryText, setQueryText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { createQuery } = useApi();
+  const { refreshData } = useTable();
 
   const handleClose = () => {
     router.back();
@@ -34,6 +36,10 @@ export default function ModalCreateQueryPage() {
         description: queryText.trim(),
         formDataId: formDataId,
       });
+
+      // Refresh the table data
+      await refreshData();
+
       handleClose();
     } catch (err) {
       console.error(`Error Creating Query: ${err}`);
