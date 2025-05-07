@@ -4,7 +4,7 @@ type ApiMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 interface ApiOptions {
   method?: ApiMethod;
-  body?: any;
+  body?: Record<string, unknown>;
   headers?: Record<string, string>;
 }
 
@@ -18,7 +18,7 @@ export const useApi = () => {
     const response = await fetch(getApiUrl(endpoint), {
       method,
       headers: {
-        ...(method !== "DELETE" && { "Content-Type": "application/json" }),
+        "Content-Type": "application/json",
         ...headers,
       },
       ...(body && { body: JSON.stringify(body) }),
@@ -31,6 +31,22 @@ export const useApi = () => {
     return response.json();
   };
 
+  const fetchDelete = async (endpoint: string): Promise<void> => {
+    const response = await fetch(getApiUrl(endpoint), {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.statusText}`);
+    }
+
+    // Check if there's content to parse
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      await response.json();
+    }
+  };
+
   return {
     getFormData: () => fetchApi<{ data: FormData[] }>("formData"),
     createQuery: (data: {
@@ -40,6 +56,6 @@ export const useApi = () => {
     }) => fetchApi("query", { method: "POST", body: data }),
     updateQuery: (id: string, data: { status: "OPEN" | "RESOLVED" }) =>
       fetchApi(`query/${id}`, { method: "PUT", body: data }),
-    deleteQuery: (id: string) => fetchApi(`query/${id}`, { method: "DELETE" }),
+    deleteQuery: (id: string) => fetchDelete(`query/${id}`),
   };
 };

@@ -116,7 +116,7 @@ export default function OverviewQueryPage() {
     try {
       await deleteQuery(query.id);
       await refreshData();
-      handleClose();
+      router.back();
     } catch (error) {
       console.error("Error deleting query:", error);
     } finally {
