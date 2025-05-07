@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import {
   Modal,
   Button,
@@ -14,27 +14,34 @@ import {
   Divider,
 } from "@mantine/core";
 import { IoIosCheckmark } from "react-icons/io";
+import { useTable } from "@/context/TableContext";
 
-export default function CreateQueryPage() {
+export default function OverviewQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams();
   const label = searchParams.get("label");
-  const queryState = searchParams.get("query");
+  const formDataId = params.id as string;
+  const { tableData } = useTable();
 
-  // Determine styles based on queryState value
+  // Find the form data entry that matches our ID
+  const formDataEntry = tableData.find((entry) => entry.id === formDataId);
+  const query = formDataEntry?.query;
+
+  // Determine styles based on query status
   let statusColor = "gray";
   let statusLabel = "None";
   let bgColor = "#f5f5f5";
   let buttonColor = "gray";
   let showResolve = false;
 
-  if (queryState === "opened") {
+  if (query?.status === "OPEN") {
     statusColor = "red";
     statusLabel = "Open";
     bgColor = "#fff5f5";
     buttonColor = "teal";
     showResolve = true;
-  } else if (queryState === "resolved") {
+  } else if (query?.status === "RESOLVED") {
     statusColor = "green";
     statusLabel = "Resolved";
     bgColor = "#f5fff5";
@@ -50,7 +57,9 @@ export default function CreateQueryPage() {
         </Badge>
       </Table.Td>
       <Table.Td>User</Table.Td>
-      <Table.Td>June 1, 2025</Table.Td>
+      <Table.Td>
+        {query ? new Date(query.createdAt).toLocaleDateString() : "N/A"}
+      </Table.Td>
     </Table.Tr>
   );
 
@@ -143,11 +152,11 @@ export default function CreateQueryPage() {
             User
           </Badge>
           <Text size="sm" color="dimmed" ml="xs">
-            January 06 2025 - 14:53
+            {query ? new Date(query.createdAt).toLocaleString() : "N/A"}
           </Text>
         </Group>
         <Text mt="sm" ml="xs">
-          test
+          {query?.description || "No description available"}
         </Text>
       </Box>
     </Modal>
